@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import styled from "styled-components";
+import GlobalStyle from "./GlobalStyle";
+import Homepage from "./login/Homepage";
+import Cadastro from "./registration/Cadastro";
+import Subscriptions from "./subscription/Subscriptions"
 
-function App() {
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+    <Container>
+      <GlobalStyle/>
+      <Routes>
+        <Route path="/" element={<Homepage/>} />
+        <Route path="/cadastro" element={<Cadastro/>} />
+        <Route path="/subscriptions" element={<Subscriptions/>} />
+{/*         <Route path="/hoje" element={<Hoje/>} />
+        <Route path="/historico" element={<Historico/>} /> */}
+      </Routes>
+    </Container>
+</BrowserRouter>
   );
 }
 
-export default App;
+const Container = styled.div`
+position: absolute;
+width: 100%;
+height:100%;
+font-family: 'Roboto', sans-serif;
+font-size: 35px;
+background-color: #0f0e12;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+overflow: scroll;
+`
