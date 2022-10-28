@@ -11,12 +11,11 @@ export default function Formulario() {
         email: '',
         password: ''
     });
-    const [link, setLink] = useState("");
     const [disabled, setDisabled] = useState(false);
     const navigate = useNavigate()
 
     function fazerLogin (event) {
-        const login = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login', form);
+        const login = axios.post('https://mock-api.driven.com.br/api/v4/driven-plus/auth/login', form);
         event.preventDefault();
         setDisabled(true);
         login.then(completeLogin);
@@ -41,11 +40,11 @@ export default function Formulario() {
 
     function completeLogin(response) {
         setDisabled(false);
-        navigate("/hoje");
         console.log(response);
+        /* navigate("/subscriptions"); */
     }
 
-    function checkError(error) {
+    function checkError() {
         alert("O usuário e/ou a senha está(ão) incorreto(s)");
         setDisabled(false);
     }
