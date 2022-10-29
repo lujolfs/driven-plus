@@ -1,8 +1,9 @@
 import styled from "styled-components"
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {Link, NavLink, useNavigate} from 'react-router-dom'
 import axios from 'axios';
 import Cadastro from "./LinkCadastro";
+import AuthContext from "../contexts/AuthContext";
 
 
 
@@ -12,6 +13,7 @@ export default function Formulario() {
         password: ''
     });
     const [disabled, setDisabled] = useState(false);
+    const {setAuth} = useContext(AuthContext);
     const navigate = useNavigate()
 
     function fazerLogin (event) {
@@ -41,7 +43,14 @@ export default function Formulario() {
     function completeLogin(response) {
         setDisabled(false);
         console.log(response);
-        /* navigate("/subscriptions"); */
+        setAuth(response.data.token);
+        localStorage.setItem("token", response.data.token)
+        if (response.data.membership == null) {
+            navigate("/subscriptions");
+        } else {
+            alert("Home em construção.")
+            /* navigate("/home") */
+        }
     }
 
     function checkError() {

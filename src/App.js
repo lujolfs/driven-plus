@@ -5,10 +5,11 @@ import GlobalStyle from "./GlobalStyle";
 import Homepage from "./login/Homepage";
 import Cadastro from "./registration/Cadastro";
 import Subscriptions from "./subscription/Subscriptions";
+import Planos from "./subscription/Planos";
 
 
 export default function App() {
-  const [auth, setAuth] = useState("")
+  const [auth, setAuth] = useState(undefined)
 
 
   return (
@@ -17,8 +18,9 @@ export default function App() {
         <GlobalStyle />
         <Routes>
           <Route path="/" element={<Homepage />} />
-          <Route path="/cadastro" element={<Cadastro />} />
+          <Route path="/sign-up" element={<Cadastro />} />
           <Route path="/subscriptions" element={<Subscriptions />} />
+          <Route path="/subscriptions/memberships/:planoId" element={<Planos />} />
         </Routes>
       </BrowserRouter>
     </AuthContext.Provider>

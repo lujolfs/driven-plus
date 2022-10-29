@@ -6,16 +6,19 @@ import logoGold from "../assets/image/Driven Gold.png"
 import logoPlat from "../assets/image/Driven Platinum.png"
 import Container from "../Container"
 import Card from "./Card";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import AuthContext from "../contexts/AuthContext";
 
 
 
 
 export default function Subscriptions() {
   const [planos, setPlanos] = useState([])
+  const {auth} = useContext(AuthContext)
+
   const config = {
     headers: {
-      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OTUyLCJpYXQiOjE2NjY5MzMzMjF9.cojJZQR23v1Ca-DkvyXSJL5xeWALYEVROf7cJs9TEyY"
+      "Authorization": `Bearer ${auth}`
     }
   }
 
@@ -25,6 +28,7 @@ export default function Subscriptions() {
     solPlanos.then(res => {
       console.log(res.data);
       setPlanos(res.data);
+      console.log(auth);
     });
 
     solPlanos.catch(erro => {

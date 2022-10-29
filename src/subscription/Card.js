@@ -7,10 +7,12 @@ export default function Card(props) {
     const priceReplace = price.replace('.', ',');
 
     return (
-        <CardContainer>
-            <Logo src={img} />
-            <Price>R$ {priceReplace}</Price>
-        </CardContainer>
+        <Link to={`/subscriptions/memberships/${id}`} style={{textDecoration: 'none'}} img={img} price={priceReplace}>
+            <CardContainer>
+                <Logo src={img} />
+                <Price>R$ {priceReplace}</Price>
+            </CardContainer>
+        </Link>
     )
 }
 
@@ -30,7 +32,9 @@ font-size: 24px;
 
 
 const Price = styled.div`
-
+a {
+text-decoration: none;
+}
 `
 
 
