@@ -4,7 +4,6 @@ import { Icon } from '@iconify/react';
 import { useState, useEffect, useContext } from 'react';
 import styled from "styled-components";
 import axios from "axios";
-import AuthContext from "../contexts/AuthContext";
 import Perks from "./Perks";
 import FormularioCartao from "./FormularioCartao";
 
@@ -12,7 +11,7 @@ import FormularioCartao from "./FormularioCartao";
 export default function Planos() {
 
     const { planoId, priceReplace } = useParams()
-    const auth = localStorage.getItem('token')
+    const auth = localStorage.getItem("token")
     const [img, setImg] = useState()
     const [name, setName] = useState()
     const [perks, setPerks] = useState()
@@ -62,7 +61,7 @@ export default function Planos() {
                 <Icon icon="fa6-solid:money-bill-wave" color="#ff4791" /> Preço:
             </ListaBeneficios>
             <Preco>R$ {price} cobrados mensalmente</Preco>
-            {recebido ? <FormularioCartao perks={perks}/> : "" }
+            {recebido ? <FormularioCartao perks={perks} name={name} price={price}/> : "" }
         </Container>
         </>
     )

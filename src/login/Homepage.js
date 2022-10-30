@@ -18,7 +18,7 @@ export default function Homepage() {
     if (membership == null) {
       navigate("/subscriptions");
   } else {
-      alert("Home em construção.")
+      navigate("/home");
   }
   }})
 

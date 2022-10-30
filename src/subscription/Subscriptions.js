@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Container from "../Container"
 import Card from "./Card";
 import { useState, useEffect, useContext } from "react";
-import AuthContext from "../contexts/AuthContext";
 
 
 
@@ -11,7 +10,7 @@ import AuthContext from "../contexts/AuthContext";
 export default function Subscriptions() {
   const [planos, setPlanos] = useState([])
   const [logo, setLogo] = useState()
-  const auth = localStorage.getItem('token');
+  const auth  = localStorage.getItem("token")
 
   const config = {
     headers: {

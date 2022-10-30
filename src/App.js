@@ -6,15 +6,24 @@ import Homepage from "./login/Homepage";
 import Cadastro from "./registration/Cadastro";
 import Subscriptions from "./subscription/Subscriptions";
 import Planos from "./subscription/Planos";
+import Home from "./home/Home";
 
 
 export default function App() {
-  const [auth, setAuth] = useState(undefined)
-  const [precoVirgula, setPrecoVirgula] = useState("18")
+  const [imgPlano, setImgPlano] = useState()
+  const [membership, setMembership] = useState()
+  const [name, setName] = useState()
+  const [chegado, setChegado] = useState(false)
+  const [auth, setAuth] = useState(null)
+
+  function setAndPersistToken(token) {
+		setAuth(token);
+		localStorage.setItem("token", token);
+	}
 
 
   return (
-    <AuthContext.Provider value={{auth, setAuth, precoVirgula, setPrecoVirgula}}>
+    <AuthContext.Provider value={{setAndPersistToken, auth, setAuth, setImgPlano, imgPlano, setMembership, membership, setName, name, setChegado, chegado}}>
       <BrowserRouter>
         <GlobalStyle />
         <Routes>
@@ -22,6 +31,7 @@ export default function App() {
           <Route path="/sign-up" element={<Cadastro />} />
           <Route path="/subscriptions" element={<Subscriptions />} />
           <Route path="/subscriptions/memberships/:planoId" element={<Planos />} />
+          <Route path="/home" element={<Home />} />
         </Routes>
       </BrowserRouter>
     </AuthContext.Provider>

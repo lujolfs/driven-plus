@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import { useState, useContext } from "react";
-import {Link, NavLink, useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cadastro from "./LinkCadastro";
 import AuthContext from "../contexts/AuthContext";
@@ -13,8 +13,7 @@ export default function Formulario() {
         password: ''
     });
     const [disabled, setDisabled] = useState(false);
-    const {setAuth} = useContext(AuthContext);
-    const navigate = useNavigate()
+    const {setAuth, setName, setMembership, setAndPersistToken} = useContext(AuthContext);
 
     function fazerLogin (event) {
         const login = axios.post('https://mock-api.driven.com.br/api/v4/driven-plus/auth/login', form);
@@ -43,9 +42,11 @@ export default function Formulario() {
     function completeLogin(response) {
         setDisabled(false);
         console.log(response);
+        setAndPersistToken(response.data.token);
         setAuth(response.data.token);
         localStorage.setItem("token", response.data.token);
-        localStorage.setItem("membership", response.data.membership);        
+        setMembership(response.data.membership);
+        setName(response.data.name);       
     }
 
     function checkError() {

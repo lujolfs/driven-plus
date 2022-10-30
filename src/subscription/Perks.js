@@ -1,7 +1,5 @@
 import styled from "styled-components";
 import Perk from "./Perk"
-import { useState } from "react"
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
 
 

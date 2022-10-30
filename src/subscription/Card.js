@@ -1,7 +1,5 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { useState, useEffect, useContext } from "react";
-import AuthContext from "../contexts/AuthContext";
 
 export default function Card(props) {
     const { id, img, price, logo, config } = props
