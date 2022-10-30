@@ -15,6 +15,13 @@ export default function App() {
   const [name, setName] = useState()
   const [chegado, setChegado] = useState(false)
   const [auth, setAuth] = useState(null)
+  const [form, setForm] = useState({
+    membershipId: '',
+    cardName: '',
+    cardNumber: '',
+    securityNumber: '',
+    expirationDate: '',
+});
 
   function setAndPersistToken(token) {
 		setAuth(token);
@@ -23,7 +30,7 @@ export default function App() {
 
 
   return (
-    <AuthContext.Provider value={{setAndPersistToken, auth, setAuth, setImgPlano, imgPlano, setMembership, membership, setName, name, setChegado, chegado}}>
+    <AuthContext.Provider value={{setAndPersistToken, auth, setAuth, setImgPlano, imgPlano, setMembership, membership, setName, name, setChegado, chegado, form, setForm}}>
       <BrowserRouter>
         <GlobalStyle />
         <Routes>

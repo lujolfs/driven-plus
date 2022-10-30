@@ -6,6 +6,7 @@ import styled from "styled-components";
 import axios from "axios";
 import Perks from "./Perks";
 import FormularioCartao from "./FormularioCartao";
+import Modal from "./Modal";
 
 
 export default function Planos() {
@@ -17,6 +18,8 @@ export default function Planos() {
     const [perks, setPerks] = useState()
     const [price, setPrice] = useState()
     const [recebido, setRecebido] = useState(false)
+    const [modal, setModal] = useState(false);
+
     const config = {
         headers: {
             "Authorization": `Bearer ${auth}`
@@ -26,7 +29,6 @@ export default function Planos() {
 
     useEffect(() => {
         promise.then(res => {
-            console.log(res);
             setImg(res.data.image);
             setPerks(res.data.perks);
             setName(res.data.name);
@@ -35,7 +37,6 @@ export default function Planos() {
         });
 
         promise.catch(erro => {
-            console.log(config);
             console.log(erro.response.data)
         });
 
@@ -43,12 +44,14 @@ export default function Planos() {
 
     return (
         <>
+        
         <Link to={`/subscriptions/`}>
         <ArrowBack>
             <Icon icon="fa-solid:arrow-left" color="white" />
         </ArrowBack>
         </Link>
         <Container>
+            {modal ? <Modal name={name} price={price} setModal={setModal}/> : null}
             <Titulo>
                 <Logo src={img} />
                 {name}
@@ -56,12 +59,12 @@ export default function Planos() {
             <ListaBeneficios>
                 <Icon icon="fluent:clipboard-task-list-rtl-20-regular" color="#ff4791" /> Benefícios:
             </ListaBeneficios>
-            {recebido ? <Perks perks={perks} /> : ""}
+            {recebido ? <Perks perks={perks} name={name} price={price} /> : ""}
             <ListaBeneficios>
                 <Icon icon="fa6-solid:money-bill-wave" color="#ff4791" /> Preço:
             </ListaBeneficios>
             <Preco>R$ {price} cobrados mensalmente</Preco>
-            {recebido ? <FormularioCartao perks={perks} name={name} price={price}/> : "" }
+            {recebido ? <FormularioCartao perks={perks} name={name} price={price} setModal={setModal} modal={modal}/> : "" }
         </Container>
         </>
     )

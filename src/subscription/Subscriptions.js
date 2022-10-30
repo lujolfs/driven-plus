@@ -2,7 +2,7 @@ import axios from "axios";
 import styled from "styled-components";
 import Container from "../Container"
 import Card from "./Card";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 
 
 
@@ -22,9 +22,7 @@ export default function Subscriptions() {
     const solPlanos = axios.get(`https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions/memberships`, config);
 
     solPlanos.then(res => {
-      console.log(res.data);
       setPlanos(res.data);
-      console.log(auth);
     });
 
     solPlanos.catch(erro => {

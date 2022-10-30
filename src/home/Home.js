@@ -34,6 +34,12 @@ export default function Home() {
         console.log(error.response.data)
     }
 
+    if (name == undefined) {
+        localStorage.removeItem('token');
+        alert("Você precisa logar novamente!");
+        navigate("/");
+    }
+
     return (
         <Container>
             <Header>

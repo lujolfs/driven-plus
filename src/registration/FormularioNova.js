@@ -13,7 +13,6 @@ export default function FormularioNova() {
     const [disabled, setDisabled] = useState(false)
 
     function fazerCadastro (event) {
-        console.log(form);
         const envio = axios.post('https://mock-api.driven.com.br/api/v4/driven-plus/auth/sign-up', form);
         event.preventDefault();
         setDisabled(true);

@@ -3,77 +3,50 @@ import { useState, useContext } from "react";
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import AuthContext from "../contexts/AuthContext";
+import Modal from "./Modal";
 
 
 
 export default function FormularioCartao(props) {
-    const { perks } = props
-    const { auth, setMembership } = useContext(AuthContext)
-    const navigate = useNavigate()
-    const [disabled, setDisabled] = useState(false);
-    const [form, setForm] = useState({
-        membershipId: perks[0].membershipId,
-        cardName: '',
-        cardNumber: '',
-        securityNumber: '',
-        expirationDate: '',
-    });
+    const { perks, name, price, modal, setModal } = props
+    const { auth, setMembership, form, setForm } = useContext(AuthContext)
+    const [disabled] = useState(false);
     const config = {
         headers: {
           "Authorization": `Bearer ${auth}`
         }
       }
+    
+    
+    
 
-    function enviaCartao(event) {
-        const cartao = axios.post('https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions', form, config);
-        event.preventDefault();
-        setDisabled(true);
-        cartao.then(completeCartao);
-        cartao.catch(checkError);
-    };
-
+    
     return (
-        <Formu onSubmit={enviaCartao} >
+        <Formu >
             <Campo type="text" name="cardName" placeholder="Nome impresso no cartão" value={form.cardName} onChange={handleForm} disabled={disabled} />
             <Campo type="text" name="cardNumber" placeholder="Dígitos do cartão" value={form.cardNumber} onChange={handleForm} disabled={disabled} />
             <Metade>
                 <Campo2 type="password" name="securityNumber" placeholder="Código de Segurança" value={form.securityNumber} onChange={handleForm} disabled={disabled} />
                 <Campo2 type="text" name="expirationDate" placeholder="Validade" value={form.expirationDate} onChange={handleForm} disabled={disabled} />
             </Metade>
-            <Entrar disabled={disabled}>ASSINAR</Entrar>
+            <Entrar disabled={disabled} onClick={() => setModal(true)}>ASSINAR</Entrar>
         </Formu>
     )
 
     function handleForm(e) {
         setForm({
             ...form,
-            [e.target.name]: e.target.value,
-        })
-    }
-
-    function completeCartao(response) {
-        setDisabled(false);
-        setMembership(response.data.membership);
-        localStorage.setItem('membership', JSON.stringify(response.data.membership))
-        console.log(response.data)
-        navigate("/home")
-    }
-
-    function checkError() {
-        setDisabled(false)
-        alert("Os dados inseridos são inválidos.");
-        console.log(form);
-        setForm({
             membershipId: perks[0].membershipId,
-            cardName: '',
-            cardNumber: '',
-            securityNumber: '',
-            expirationDate: '',
+            [e.target.name]: e.target.value
         })
     }
+
+
+
+
 }
 
-const Formu = styled.form`
+const Formu = styled.div`
 display: flex;
 flex-direction: column;
 align-items: center;

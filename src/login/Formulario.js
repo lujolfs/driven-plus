@@ -41,7 +41,6 @@ export default function Formulario() {
 
     function completeLogin(response) {
         setDisabled(false);
-        console.log(response);
         setAuth(response.data.token);
         localStorage.setItem("token", response.data.token);
         setMembership(response.data.membership);
