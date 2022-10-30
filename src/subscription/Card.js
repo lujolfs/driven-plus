@@ -1,15 +1,16 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import AuthContext from "../contexts/AuthContext";
 
 export default function Card(props) {
-    const { id, img, price } = props
+    const { id, img, price, logo, config } = props
     const priceReplace = price.replace('.', ',');
 
     return (
-        <Link to={`/subscriptions/memberships/${id}`} style={{textDecoration: 'none'}} img={img} price={priceReplace}>
-            <CardContainer>
-                <Logo src={img} />
+        <Link to={`/subscriptions/memberships/${id}`} style={{ textDecoration: 'none' }} state={ {img , priceReplace, config}} >
+            <CardContainer >
+                <Logo src={img} onError={logo}/>
                 <Price>R$ {priceReplace}</Price>
             </CardContainer>
         </Link>

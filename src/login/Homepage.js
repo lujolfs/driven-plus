@@ -1,5 +1,5 @@
 import logo from "../assets/image/Driven_white 1.png"
-import {useContext} from 'react';
+import {useContext, useEffect} from 'react';
 import { BrowserRouter, Routes, Route, Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Formulario from "./Formulario";
@@ -8,15 +8,19 @@ import AuthContext from "../contexts/AuthContext";
 
 export default function Homepage() {
   const {setAuth, auth} = useContext(AuthContext)
-  console.log(auth)
   const logado = localStorage.getItem("token")
-  console.log(logado);
+  const membership = localStorage.getItem("membership")
   const navigate = useNavigate();
 
+  useEffect(() => {
   if (logado !== null) {
     setAuth(logado);
-    navigate("/subscriptions");
+    if (membership == null) {
+      navigate("/subscriptions");
+  } else {
+      alert("Home em construção.")
   }
+  }})
 
 
   return (

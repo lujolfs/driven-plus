@@ -44,13 +44,8 @@ export default function Formulario() {
         setDisabled(false);
         console.log(response);
         setAuth(response.data.token);
-        localStorage.setItem("token", response.data.token)
-        if (response.data.membership == null) {
-            navigate("/subscriptions");
-        } else {
-            alert("Home em construção.")
-            /* navigate("/home") */
-        }
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("membership", response.data.membership);        
     }
 
     function checkError() {

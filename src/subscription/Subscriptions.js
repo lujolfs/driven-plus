@@ -1,9 +1,5 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
-import logoPlus from "../assets/image/Driven Plus.png"
-import logoGold from "../assets/image/Driven Gold.png"
-import logoPlat from "../assets/image/Driven Platinum.png"
 import Container from "../Container"
 import Card from "./Card";
 import { useState, useEffect, useContext } from "react";
@@ -14,7 +10,8 @@ import AuthContext from "../contexts/AuthContext";
 
 export default function Subscriptions() {
   const [planos, setPlanos] = useState([])
-  const {auth} = useContext(AuthContext)
+  const [logo, setLogo] = useState()
+  const auth = localStorage.getItem('token');
 
   const config = {
     headers: {
@@ -48,7 +45,11 @@ export default function Subscriptions() {
         id={plano.id}
         key={plano.id}
         img={plano.image}
-        price={plano.price} />
+        price={plano.price}
+        setLogo={setLogo}
+        logo={logo}
+        config={config}
+        />
       ))}
     </Container>
   );

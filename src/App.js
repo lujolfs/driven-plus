@@ -10,10 +10,11 @@ import Planos from "./subscription/Planos";
 
 export default function App() {
   const [auth, setAuth] = useState(undefined)
+  const [precoVirgula, setPrecoVirgula] = useState("18")
 
 
   return (
-    <AuthContext.Provider value={{auth, setAuth}}>
+    <AuthContext.Provider value={{auth, setAuth, precoVirgula, setPrecoVirgula}}>
       <BrowserRouter>
         <GlobalStyle />
         <Routes>
