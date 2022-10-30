@@ -13,7 +13,7 @@ export default function Formulario() {
         password: ''
     });
     const [disabled, setDisabled] = useState(false);
-    const {setAuth, setName, setMembership, setAndPersistToken} = useContext(AuthContext);
+    const {setAuth, setName, setMembership} = useContext(AuthContext);
 
     function fazerLogin (event) {
         const login = axios.post('https://mock-api.driven.com.br/api/v4/driven-plus/auth/login', form);
@@ -42,7 +42,6 @@ export default function Formulario() {
     function completeLogin(response) {
         setDisabled(false);
         console.log(response);
-        setAndPersistToken(response.data.token);
         setAuth(response.data.token);
         localStorage.setItem("token", response.data.token);
         setMembership(response.data.membership);

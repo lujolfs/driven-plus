@@ -2,15 +2,14 @@ import styled from "styled-components"
 import { useState, useContext } from "react";
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
-import Modal from 'react-modal'
+import AuthContext from "../contexts/AuthContext";
 
 
 
 export default function FormularioCartao(props) {
-    const { perks, name, price } = props
-    const  auth  = localStorage.getItem("token")
+    const { perks } = props
+    const { auth, setMembership } = useContext(AuthContext)
     const navigate = useNavigate()
-    const [showModal, setShowModal] = useState(false)
     const [disabled, setDisabled] = useState(false);
     const [form, setForm] = useState({
         membershipId: perks[0].membershipId,
@@ -21,9 +20,9 @@ export default function FormularioCartao(props) {
     });
     const config = {
         headers: {
-            "Authorization": `Bearer ${auth}`
+          "Authorization": `Bearer ${auth}`
         }
-    }
+      }
 
     function enviaCartao(event) {
         const cartao = axios.post('https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions', form, config);
@@ -33,51 +32,16 @@ export default function FormularioCartao(props) {
         cartao.catch(checkError);
     };
 
-    function ligaModal() {
-        setShowModal(true);
-        console.log("foi")
-    }
-
     return (
-        <>
-{/*             <Modal isOpen={showModal} ariaHideApp={false}
-                style={{
-                    overlay: {
-                        position: 'fixed',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        backgroundColor: 'rgba(0, 0, 0, 0.75)',
-                    },
-                    content: {
-                        width: 248,
-                        height: 210,
-                        fontFamily: 'Roboto',
-                        fontSize: 18,
-                        fontWeight: 700,
-                        borderRadius: 12,
-                        position: 'absolute',
-                        textAlign: 'center',
-                        display: 'flex',
-                        flexDirection: 'column',
-                    },
-                }}>
-                <span>Tem certeza de que deseja assinar o plano {name} (R$ {price})? </span>
-                <br />
-                <button>Não</button>
-                <button>SIM</button>
-            </Modal> */}
-            <Formu>
-                <Campo type="text" name="cardName" placeholder="Nome impresso no cartão" value={form.cardName} onChange={handleForm} disabled={disabled} />
-                <Campo type="text" name="cardNumber" placeholder="Dígitos do cartão" value={form.cardNumber} onChange={handleForm} disabled={disabled} />
-                <Metade>
-                    <Campo2 type="password" name="securityNumber" placeholder="Código de Segurança" value={form.securityNumber} onChange={handleForm} disabled={disabled} />
-                    <Campo2 type="text" name="expirationDate" placeholder="Validade" value={form.expirationDate} onChange={handleForm} disabled={disabled} />
-                </Metade>
-                <Entrar disabled={disabled} onClick={() => ligaModal()}>ASSINAR</Entrar>
-            </Formu>
-        </>
+        <Formu onSubmit={enviaCartao} >
+            <Campo type="text" name="cardName" placeholder="Nome impresso no cartão" value={form.cardName} onChange={handleForm} disabled={disabled} />
+            <Campo type="text" name="cardNumber" placeholder="Dígitos do cartão" value={form.cardNumber} onChange={handleForm} disabled={disabled} />
+            <Metade>
+                <Campo2 type="password" name="securityNumber" placeholder="Código de Segurança" value={form.securityNumber} onChange={handleForm} disabled={disabled} />
+                <Campo2 type="text" name="expirationDate" placeholder="Validade" value={form.expirationDate} onChange={handleForm} disabled={disabled} />
+            </Metade>
+            <Entrar disabled={disabled}>ASSINAR</Entrar>
+        </Formu>
     )
 
     function handleForm(e) {
@@ -87,10 +51,12 @@ export default function FormularioCartao(props) {
         })
     }
 
-    function completeCartao(responde) {
+    function completeCartao(response) {
         setDisabled(false);
-        alert("Deu bom!");
-        navigate("/home");
+        setMembership(response.data.membership);
+        localStorage.setItem('membership', JSON.stringify(response.data.membership))
+        console.log(response.data)
+        navigate("/home")
     }
 
     function checkError() {
@@ -107,7 +73,7 @@ export default function FormularioCartao(props) {
     }
 }
 
-const Formu = styled.div`
+const Formu = styled.form`
 display: flex;
 flex-direction: column;
 align-items: center;

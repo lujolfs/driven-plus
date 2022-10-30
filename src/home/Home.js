@@ -1,15 +1,38 @@
-import {useContext} from "react";
+import { useContext, useEffect } from "react";
 import AuthContext from "../contexts/AuthContext";
 import styled from "styled-components";
-import Container from "../Container"
-import { Link } from "react-router-dom";
+import Container from "../Container";
+import axios from 'axios';
+import { Link, useNavigate } from "react-router-dom";
 import { Icon } from '@iconify/react';
 
 
 
 export default function Home() {
-    const {name, membership, chegado} = useContext(AuthContext);
-    const imagemPlano = membership.image;
+    const { name, auth } = useContext(AuthContext);
+    const navigate = useNavigate()
+    const membershipPersistente = JSON.parse(localStorage.getItem('membership'));
+    const imagemPlano = membershipPersistente.image;
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${auth}`
+        }
+    }
+
+    function cancelaPlano() {
+        const cancelamento = axios.delete('https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions', config);
+        cancelamento.then(escolherOutro);
+        cancelamento.catch(checkError)
+    }
+
+    function escolherOutro() {
+        localStorage.removeItem('membership');
+        navigate("/subscriptions");
+    }
+
+    function checkError(error) {
+        console.log(error.response.data)
+    }
 
     return (
         <Container>
@@ -22,21 +45,21 @@ export default function Home() {
                     Olá, {name}
                 </Cumprimento>
                 <Perks>
-                    {membership.perks.map((perk) => 
+                    {membershipPersistente.perks.map((perk) =>
                         <Perk>
                             <a href={perk.link} target="_blank" key={perk.id}>{perk.title}</a>
                         </Perk>
                     )}
                 </Perks>
                 <Botoes>
-                <Link to={`/subscriptions/`} style={{ textDecoration: 'none' }} >
-                    <MudaPlano>
+                    <Link to={`/subscriptions/`} style={{ textDecoration: 'none' }} >
+                        <MudaPlano>
                             Mudar plano
-                    </MudaPlano>
-                </Link>
-                <CancelaPlano>
+                        </MudaPlano>
+                    </Link>
+                    <CancelaPlano onClick={() => cancelaPlano()}>
                         Cancelar plano
-                </CancelaPlano>
+                    </CancelaPlano>
                 </Botoes>
             </Container>
         </Container>
@@ -72,7 +95,7 @@ const Perks = styled.div`
 
 `
 
-const Icone=styled.div`
+const Icone = styled.div`
 padding-right: 20px;
 `
 
